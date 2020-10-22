@@ -2,17 +2,17 @@
 
 require_once './App/Models/CommonFeature.php';
 
-final class Platform extends CommonFeature
+final class Developer extends CommonFeature
 {
     
     protected $name;
 
     /**
-     * Create new Platform object
+     * Create new Developer object
      * 
-     * @param int $id Platform database ID
-     * @param string $name Platform name
-     * @param string $link Platform link
+     * @param int $id Developer database ID
+     * @param string $name Developer name
+     * @param string $link Developer link
      */
     public function __construct(
         int $id = null,
@@ -52,26 +52,25 @@ final class Platform extends CommonFeature
 
 }
 
-
-function createPlatform($id, $name, $link) {
-    return new Platform($id, $name, $link);
+function createDeveloper($id, $name, $link) {
+    return new Developer($id, $name, $link);
 }
 
 
-function fetchAllPlatform(){
+function fetchAllDeveloper(){
     global $dbVideoGames;
 
-    $stmt = $dbVideoGames->query('SELECT * FROM `platform`');
+    $stmt = $dbVideoGames->query('SELECT * FROM `developer`');
 
-    return $stmt->fetchAll(PDO::FETCH_FUNC, 'createPlatform');
+    return $stmt->fetchAll(PDO::FETCH_FUNC, 'createDeveloper');
 }
 
-function fetchPlatformById(int $id): ?Platform {
+function fetchDeveloperById(int $id): ?Developer {
     global $dbVideoGames;
 
-    $statement = $dbVideoGames->prepare('SELECT * FROM `platform` WHERE `id` = :id');
+    $statement = $dbVideoGames->prepare('SELECT * FROM `developer` WHERE `id` = :id');
     $statement->execute([ ':id' => $id ]);
-    $result = $statement->fetchAll(PDO::FETCH_FUNC, 'createPlatform');
+    $result = $statement->fetchAll(PDO::FETCH_FUNC, 'createDeveloper');
 
     if (empty($result)) {
         return null;
@@ -79,5 +78,3 @@ function fetchPlatformById(int $id): ?Platform {
 
     return $result[0];
 }
-
-

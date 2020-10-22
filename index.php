@@ -1,6 +1,6 @@
 <?php
     require_once './App/Models/Platform.php';
-    require_once './App/Models/Developper.php';
+    require_once './App/Models/Developer.php';
     require_once './App/Models/VideoGame.php';
 
 
@@ -43,12 +43,12 @@
                         <td>
                             <a href="<?= $game->getLink() ?>"><?= $game->getTitle() ?></a>
                         </td>
-                        <td>5 june 1989</td>
+                        <td><?= $game->getReleaseDate() ?></td>
                         <td>
-                            <a href="https://en.wikipedia.org/wiki/Bullfrog_Productions"><?= $game->getDevelopperId() ?></a>
+                            <a href="<?= $game->getDeveloper()->getLink() ?>"><?= $game->getDeveloper()->getName() ?></a>
                         </td>
                         <td>
-                            <a href="https://en.wikipedia.org/wiki/Amiga"><?= $game->getPlatformId() ?></a>
+                            <a href="<?= $game->getPlatform()->getLink() ?>"><?= $game->getPlatform()->getName() ?></a>
                         </td>
                         <td>
                             <button class="btn btn-primary btn-sm">

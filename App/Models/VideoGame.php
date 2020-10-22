@@ -1,6 +1,9 @@
 <?php
 
 require_once './App/Models/CommonFeature.php';
+require_once './App/Models/Platform.php';
+require_once './App/Models/Developer.php';
+
 
 final class VideoGame extends CommonFeature
 {
@@ -22,7 +25,7 @@ final class VideoGame extends CommonFeature
         string $title = '',
         string $releaseDate = '',
         string $link = '',
-        int $developperId = null,
+        int $developerId = null,
         int $platformId = null
     )
     {
@@ -33,7 +36,7 @@ final class VideoGame extends CommonFeature
 
         $this->title = $title;
         $this->releaseDate = $releaseDate;
-        $this->developperId = $developperId;
+        $this->developerId = $developerId;
         $this->platformId = $platformId;
         
     }
@@ -67,27 +70,31 @@ final class VideoGame extends CommonFeature
 		$this->releaseDate = $releaseDate; 
 	} 
 
-	public function getDevelopperId() { 
- 		return $this->developperId; 
+    public function getDeveloper(): ?Developer 
+    { 
+ 		return fetchDeveloperById($this->developerId); 
 	} 
 
-	public function setDevelopperId($developperId) {  
-		$this->developperId = $developperId; 
+	public function setDeveloper(Developer $developer) {  
+        $this->developerId = $developer->getId();
+        return $this; 
 	} 
 
-	public function getPlatformId() { 
- 		return $this->platformId; 
+    public function getPlatform(): ?Platform 
+    { 
+ 		return fetchPlatformById($this->platformId); 
 	} 
 
-	public function setPlatformId($platformId) {  
-		$this->platformId = $platformId; 
+	public function setPlatform(Platform $platform) {  
+        $this->platformId = $platform->getId();
+        return $this; 
     } 
     
 
 }
 
-function createVideoGame($id, $title, $releaseDate, $link, $developperId, $platformId) {
-    return new VideoGame($id, $title, $releaseDate, $link, $developperId, $platformId);
+function createVideoGame($id, $title, $releaseDate, $link, $developerId, $platformId) {
+    return new VideoGame($id, $title, $releaseDate, $link, $developerId, $platformId);
 }
 
 
@@ -97,4 +104,18 @@ function fetchAllVG(){
     $stmt = $dbVideoGames->query('SELECT * FROM `game`');
 
     return $stmt->fetchAll(PDO::FETCH_FUNC, 'createVideoGame');
+}
+
+function fetchVideoGameById(int $id): ?VideoGame {
+    global $dbVideoGames;
+
+    $statement = $dbVideoGames->prepare('SELECT * FROM `game` WHERE `id` = :id');
+    $statement->execute([ ':id' => $id ]);
+    $result = $statement->fetchAll(PDO::FETCH_FUNC, 'createVideoGame');
+
+    if (empty($result)) {
+        return null;
+    }
+
+    return $result[0];
 }
