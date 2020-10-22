@@ -12,7 +12,7 @@
     $developers = fetchAllDeveloper();
     $games = fetchAllVG();
 
-if 
+
     // Si le formulaire vient d'être validé
 if (
     isset($_GET['title'])
@@ -108,6 +108,7 @@ if (
                                 <button  type="submit" class="btn btn-danger btn-sm">
                                 <i class="fas fa-trash-alt"></i>
                                 </button>
+                                </form>
                         </td>
                     </tr>
                 <?php endforeach; ?>
