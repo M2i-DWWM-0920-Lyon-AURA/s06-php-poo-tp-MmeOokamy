@@ -47,9 +47,9 @@ if (
              ':developer_id' => $_GET['developer'],
              ':platform_id' => $_GET['platform'],
          ]);
-
-    
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -62,6 +62,11 @@ if (
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" rel="stylesheet" />
 <body>
     <div class="container">
+
+
+    
+       
+
         <div class="card text-center">
             <img src="images/data-original.jpg" class="card-img-top" alt="Retro gaming banner">
             <div class="card-header">
@@ -103,7 +108,7 @@ if (
                                 </form>
                         </td>
                         <td>
-                        <form action="">
+                        <form action="/" method="post">
                                 <input type="hidden" name="delete" value="<?= $game->getId() ?>" />
                                 <button  type="submit" class="btn btn-danger btn-sm">
                                 <i class="fas fa-trash-alt"></i>
