@@ -1,3 +1,13 @@
+<?php
+    require_once './App/Models/Platform.php';
+    require_once './App/Models/Developper.php';
+    require_once './App/Models/VideoGame.php';
+
+
+    $dbVideoGames = new PDO('mysql:host=localhost;dbname=videogames', 'root', 'root');
+    var_Dump($dbVideoGames);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
