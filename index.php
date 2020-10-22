@@ -6,7 +6,30 @@
 
     $dbVideoGames = new PDO('mysql:host=localhost;dbname=videogames', 'root', 'root');
 
+    $platforms = fetchAllPlatform();
+    $developers = fetchAllDeveloper();
     $games = fetchAllVG();
+
+    // Si le formulaire vient d'être validé
+if (
+    isset($_GET['title'])
+    && isset($_GET['link'])
+    && isset($_GET['release_date'])
+    && isset($_GET['developer'])
+    && isset($_GET['platform'])
+) {
+    // Crée une nouvelle configuration à partir de la sélection de l'utilisateur
+    $game = new VideoGame(
+        null,
+        $_GET['title'],
+        $_GET['release_date'],
+        $_GET['link'],
+        $_GET['developer'],
+        $_GET['platform']
+    );
+
+    
+}
 ?>
 
 <!DOCTYPE html>
@@ -76,17 +99,20 @@
                             </td>
                             <td>
                                 <select name="developer">
-                                    <option value="1">Bullfrog Productions</option>
-                                    <option value="2">id Software</option>
+                                <?php foreach ($developers as $developer): ?>
+                                    <option value="<?= $developer->getId() ?>"><?= $developer->getName() ?></option>
+                                <?php endforeach; ?>
                                 </select>
                             </td>
                             <td>
                                 <select name="platform">
-                                    <option value="1">SNES</option>
-                                    <option value="2">MS-DOS</option>
+                                <?php foreach ($platforms as $platform): ?>
+                                    <option value="<?= $platform->getId() ?>"><?= $platform->getName() ?></option>
+                                <?php endforeach; ?>
                                 </select>
                             </td>
                             <td>
+                            
                                 <button type="submit" class="btn btn-success btn-sm">
                                     <i class="fas fa-plus"></i>
                                 </button>

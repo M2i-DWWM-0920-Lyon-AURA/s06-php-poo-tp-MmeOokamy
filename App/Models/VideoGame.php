@@ -41,6 +41,94 @@ final class VideoGame extends CommonFeature
         
     }
 
+     /**
+     * Save current object's properties in database
+     */
+     public function save()
+     {
+         // Si la configuration n'existe pas encore dans la base de données
+         if (is_null($this->id)) {
+             // Enregistre une nouvelle configuration en base de données
+             $this->create();
+         } else {
+             // Modifie la configuration déjà existante en base de données
+             $this->update();
+         }
+     }
+ 
+     /**
+      * Create a new record in database based on this object's properties
+      */
+     protected function create()
+     {
+         global $dbVideoGames;
+ 
+         $statement = $dbVideoGames->prepare('
+             INSERT INTO `game` (
+                 `title`,
+                 `release_date`,
+                 `link`,
+                 `developer_Id`,
+                 `platform_Id`
+
+             )
+             VALUES (
+                 :title,
+                 :release_date,
+                 :link,
+                 :developer_id,
+                 :platform_id
+             )
+         ');
+         $statement->execute([
+             ':title' => $this->title,
+             ':release_date' => $this->releaseDate,
+             ':link' => $this->link,
+             ':developer_id' => $this->developerId,
+             ':platform_id' => $this->platformId,
+         ]);
+ 
+         $this->id = $dbVideoGames->lastInsertId();
+     }
+ 
+     /**
+      * Update existing record in database based on this object's properties
+      */
+     protected function update()
+     {
+         global $dbVideoGames;
+ 
+         $statement = $dbVideoGames->prepare('
+             UPDATE `game`
+             SET
+                 `title` = :title,
+                 `release_date` = :release_date,
+                 `link` = :link,
+                 `developer_id` = :developer_id,
+                 `platform_id` = :platform_id
+             WHERE `id` = :id;
+         ');
+         $statement->execute([
+             ':id' => $this->id,
+             ':title' => $this->title,
+             ':release_date' => $this->releaseDate,
+             ':link' => $this->link,
+             ':developer_id' => $this->developerID,
+             ':platform_id' => $this->platformId,
+         ]);
+     }
+ 
+     /**
+      * Delete matching database record
+      */
+     public function delete()
+     {
+         global $dbVideoGames;
+ 
+         $dbVideoGames->exec('DELETE FROM `game` WHERE `id` = ' . $this->id);
+     }
+ 
+
 
     /**
      * Get the value of title
