@@ -76,7 +76,7 @@ final class VideoGame extends CommonFeature
                  :title,
                  :release_date,
                  :link,
-                 :developer,
+                 :developer_,
                  :platform
              )
          ');

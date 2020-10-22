@@ -13,43 +13,6 @@
     $games = fetchAllVG();
 
 
-       // Si le formulaire vient d'être validé
-if (
-    isset($_GET['title'])
-    && isset($_GET['link']) 
-    && filter_var($_GET['link'], FILTER_VALIDATE_URL)
-    && isset($_GET['release_date'])
-    && isset($_GET['developer'])
-    && isset($_GET['platform'])
-) {
-
-    $statement = $dbVideoGames->prepare('
-             INSERT INTO `game` (
-                 `title`,
-                 `release_date`,
-                 `link`,
-                 `developer_Id`,
-                 `platform_Id`
-
-             )
-             VALUES (
-                 :title,
-                 :release_date,
-                 :link,
-                 :developer_id,
-                 :platform_id
-             )
-         ');
-         $statement->execute([
-             ':title' => $_GET['title'],
-             ':release_date' => $_GET['release_date'],
-             ':link' => $_GET['link'],
-             ':developer_id' => $_GET['developer'],
-             ':platform_id' => $_GET['platform'],
-         ]);
-
-    
-}
 ?>
 
 <!DOCTYPE html>
@@ -80,39 +43,7 @@ if (
                     </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($games as $game): ?>
-                    <tr>
-                        <th scope="row"><?= $game->getId() ?></th>
-                        <td>
-                            <a href="<?= $game->getLink() ?>"><?= $game->getTitle() ?></a>
-                        </td>
-                        <td><?= $game->getReleaseDate() ?></td>
-                        <td>
-                            <a href="<?= $game->getDeveloper()->getLink() ?>"><?= $game->getDeveloper()->getName() ?></a>
-                        </td>
-                        <td>
-                            <a href="<?= $game->getPlatform()->getLink() ?>"><?= $game->getPlatform()->getName() ?></a>
-                        </td>
-                        
-                        <td>
-                        <form action="change.php" method="get">
-                                <input type="hidden" name="id" value="<?= $game->getId() ?>" />
-                                <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fas fa-edit"></i>
-                                </button>
-                                </form>
-                        </td>
-                        <td>
-                        <form action="">
-                                <input type="hidden" name="delete" value="<?= $game->getId() ?>" />
-                                <button  type="submit" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash-alt"></i>
-                                </button>  
-                        </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                    
+                
                     <form>
                         <tr>
                             <th scope="row"></th>
