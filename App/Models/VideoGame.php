@@ -76,16 +76,16 @@ final class VideoGame extends CommonFeature
                  :title,
                  :release_date,
                  :link,
-                 :developer_id,
-                 :platform_id
+                 :developer,
+                 :platform
              )
          ');
          $statement->execute([
              ':title' => $this->title,
              ':release_date' => $this->releaseDate,
              ':link' => $this->link,
-             ':developer_id' => $this->developerId,
-             ':platform_id' => $this->platformId,
+             ':developer' => $this->developerId,
+             ':platform' => $this->platformId,
          ]);
  
          $this->id = $dbVideoGames->lastInsertId();

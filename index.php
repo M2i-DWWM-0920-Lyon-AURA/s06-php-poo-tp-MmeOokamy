@@ -6,27 +6,47 @@
 
     $dbVideoGames = new PDO('mysql:host=localhost;dbname=videogames', 'root', 'root');
 
+    $statement = $dbVideoGames->query('SELECT * FROM `game` LIMIT 50');
+
     $platforms = fetchAllPlatform();
     $developers = fetchAllDeveloper();
     $games = fetchAllVG();
 
+if 
     // Si le formulaire vient d'être validé
 if (
     isset($_GET['title'])
-    && isset($_GET['link'])
+    && isset($_GET['link']) 
+    && filter_var($_GET['link'], FILTER_VALIDATE_URL)
     && isset($_GET['release_date'])
     && isset($_GET['developer'])
     && isset($_GET['platform'])
 ) {
-    // Crée une nouvelle configuration à partir de la sélection de l'utilisateur
-    $game = new VideoGame(
-        null,
-        $_GET['title'],
-        $_GET['release_date'],
-        $_GET['link'],
-        $_GET['developer'],
-        $_GET['platform']
-    );
+   
+    $statement = $dbVideoGames->prepare('
+             INSERT INTO `game` (
+                 `title`,
+                 `release_date`,
+                 `link`,
+                 `developer_Id`,
+                 `platform_Id`
+
+             )
+             VALUES (
+                 :title,
+                 :release_date,
+                 :link,
+                 :developer_id,
+                 :platform_id
+             )
+         ');
+         $statement->execute([
+             ':title' => $_GET['title'],
+             ':release_date' => $_GET['release_date'],
+             ':link' => $_GET['link'],
+             ':developer_id' => $_GET['developer'],
+             ':platform_id' => $_GET['platform'],
+         ]);
 
     
 }
@@ -73,15 +93,21 @@ if (
                         <td>
                             <a href="<?= $game->getPlatform()->getLink() ?>"><?= $game->getPlatform()->getName() ?></a>
                         </td>
+                        
                         <td>
-                            <button class="btn btn-primary btn-sm">
+                        <form action="/">
+                                <input type="hidden" name="id" value="<?= $game->getId() ?>" />
+                                <button type="submit" class="btn btn-primary btn-sm">
                                 <i class="fas fa-edit"></i>
-                            </button>
-                        </td>
+                                </button>
+                        </form>
+                        
                         <td>
-                            <button class="btn btn-danger btn-sm">
+                        <form method="post">
+                                <input type="hidden" name="delete" value="<?= $game->getId() ?>" />
+                                <button  type="submit" class="btn btn-danger btn-sm">
                                 <i class="fas fa-trash-alt"></i>
-                            </button>
+                                </button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
