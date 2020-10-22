@@ -2,7 +2,7 @@
 
 require_once './App/Models/CommonFeature.php';
 
-final class VideoGames extends CommonFeature
+final class VideoGame extends CommonFeature
 {
     
     protected $title;
@@ -11,11 +11,11 @@ final class VideoGames extends CommonFeature
     protected $platformId;
 
     /**
-     * Create new Platform object
+     * Create new VideoGame object
      * 
-     * @param int $id Platform database ID
-     * @param string $name Platform name
-     * @param string $link Platform link
+     * @param int $id VideoGame database ID
+     * @param string $name VideoGame name
+     * @param string $link VideoGame link
      */
     public function __construct(
         int $id = null,
@@ -59,27 +59,42 @@ final class VideoGames extends CommonFeature
         return $this;
     }
 
-	function getReleaseDate() { 
+	public function getReleaseDate() { 
  		return $this->releaseDate; 
 	} 
 
-	function setReleaseDate($releaseDate) {  
+	public function setReleaseDate($releaseDate) {  
 		$this->releaseDate = $releaseDate; 
 	} 
 
-	function getDevelopperId() { 
+	public function getDevelopperId() { 
  		return $this->developperId; 
 	} 
 
-	function setDevelopperId($developperId) {  
+	public function setDevelopperId($developperId) {  
 		$this->developperId = $developperId; 
 	} 
 
-	function getPlatformId() { 
+	public function getPlatformId() { 
  		return $this->platformId; 
 	} 
 
-	function setPlatformId($platformId) {  
+	public function setPlatformId($platformId) {  
 		$this->platformId = $platformId; 
-	} 
+    } 
+    
+
+}
+
+function createVideoGame($id, $title, $releaseDate, $link, $developperId, $platformId) {
+    return new VideoGame($id, $title, $releaseDate, $link, $developperId, $platformId);
+}
+
+
+function fetchAllVG(){
+    global $dbVideoGames;
+
+    $stmt = $dbVideoGames->query('SELECT * FROM `game`');
+
+    return $stmt->fetchAll(PDO::FETCH_FUNC, 'createVideoGame');
 }

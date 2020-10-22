@@ -5,7 +5,8 @@
 
 
     $dbVideoGames = new PDO('mysql:host=localhost;dbname=videogames', 'root', 'root');
-    var_Dump($dbVideoGames);
+
+    $games = fetchAllVG();
 ?>
 
 <!DOCTYPE html>
@@ -36,40 +37,18 @@
                     </tr>
                 </thead>
                 <tbody>
+                <?php foreach ($games as $game): ?>
                     <tr>
-                        <th scope="row">1</th>
+                        <th scope="row"><?= $game->getId() ?></th>
                         <td>
-                            <a href="https://en.wikipedia.org/wiki/Populous_(video_game)">Populous</a>
+                            <a href="<?= $game->getLink() ?>"><?= $game->getTitle() ?></a>
                         </td>
                         <td>5 june 1989</td>
                         <td>
-                            <a href="https://en.wikipedia.org/wiki/Bullfrog_Productions">Bullfrog Productions</a>
+                            <a href="https://en.wikipedia.org/wiki/Bullfrog_Productions"><?= $game->getDevelopperId() ?></a>
                         </td>
                         <td>
-                            <a href="https://en.wikipedia.org/wiki/Amiga">Amiga</a>
-                        </td>
-                        <td>
-                            <button class="btn btn-primary btn-sm">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>
-                            <a href="https://en.wikipedia.org/wiki/Populous_(video_game)">Doom</a>
-                        </td>
-                        <td>10 December 1993</td>
-                        <td>
-                            <a href="https://en.wikipedia.org/wiki/Bullfrog_Productions">id Software</a>
-                        </td>
-                        <td>
-                            <a href="https://en.wikipedia.org/wiki/MS-DOS">MS-DOS</a>
+                            <a href="https://en.wikipedia.org/wiki/Amiga"><?= $game->getPlatformId() ?></a>
                         </td>
                         <td>
                             <button class="btn btn-primary btn-sm">
@@ -82,6 +61,8 @@
                             </button>
                         </td>
                     </tr>
+                <?php endforeach; ?>
+                    
                     <form>
                         <tr>
                             <th scope="row"></th>
