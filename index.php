@@ -2,11 +2,8 @@
     require_once './App/Models/Platform.php';
     require_once './App/Models/Developer.php';
     require_once './App/Models/VideoGame.php';
+    require_once './data/dataBaseVG.php';
 
-
-    $dbVideoGames = new PDO('mysql:host=localhost;dbname=videogames', 'root', 'root');
-    $dbVideoGames->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $dbVideoGames->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 
     $statement = $dbVideoGames->query('SELECT * FROM `game` LIMIT 50');
@@ -16,41 +13,7 @@
     $games = fetchAllVG();
 
 
-       // Si le formulaire vient d'être validé
-        if (
-            isset($_GET['title'])
-            && isset($_GET['link'])
-            && isset($_GET['release_date'])
-            && isset($_GET['developer'])
-            && isset($_GET['platform'])
-        ) {
-        
-                $statement = $dbVideoGames->prepare('
-                    INSERT INTO `game` (
-                        `title`,
-                        `release_date`,
-                        `link`,
-                        `developer_Id`,
-                        `platform_Id`
-
-                    )
-                    VALUES (
-                        :title,
-                        :release_date,
-                        :link,
-                        :developer_id,
-                        :platform_id
-                    )
-                ');
-                $statement->execute([
-                    ':title' => $_GET['title'],
-                    ':release_date' => $_GET['release_date'],
-                    ':link' => $_GET['link'],
-                    ':developer_id' => $_GET['developer'],
-                    ':platform_id' => $_GET['platform'],
-                ]);
-                
-        }
+      
 
 ?>
 
@@ -120,7 +83,7 @@
                     </tr>
                 <?php endforeach; ?>
                     
-                    <form>
+                    <form action="change.php" method="post">
                         <tr>
                             <th scope="row"></th>
                             <td>

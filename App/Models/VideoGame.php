@@ -21,12 +21,12 @@ final class VideoGame extends CommonFeature
      * @param string $link VideoGame link
      */
     public function __construct(
-        int $id = null,
+        ?int $id = null,
         string $title = '',
         string $releaseDate = '',
         string $link = '',
-        int $developerId = null,
-        int $platformId = null
+        ?int $developerId = null,
+        ?int $platformId = null
     )
     {
         parent::__construct(
