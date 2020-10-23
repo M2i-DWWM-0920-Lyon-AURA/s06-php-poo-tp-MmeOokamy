@@ -20,7 +20,7 @@ abstract class CommonFeature
     )
     {
         $this->id = $id;
-        $this->link = $link;
+        $this->setLink($link);
     }
 
     /**
@@ -46,6 +46,10 @@ abstract class CommonFeature
      */ 
     public function setLink($link)
     {
+        if(!filter_var($link, FILTER_VALIDATE_URL)){
+            throw new Error('CommonFeature::link property must be a valid URL.');
+        }
+
         $this->link = $link;
 
         return $this;
