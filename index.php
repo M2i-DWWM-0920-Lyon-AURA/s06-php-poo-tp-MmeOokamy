@@ -91,14 +91,14 @@
                     <tr>
                         <th scope="row"><?= $game->getId() ?></th>
                         <td>
-                            <a href="<?= $game->getLink() ?>"><?= $game->getTitle() ?></a>
+                            <a target="_blank" href="<?= $game->getLink() ?>"><?= $game->getTitle() ?></a>
                         </td>
                         <td><?= $game->getReleaseDate() ?></td>
                         <td>
-                            <a href="<?= $game->getDeveloper()->getLink() ?>"><?= $game->getDeveloper()->getName() ?></a>
+                            <a target="_blank" href="<?= $game->getDeveloper()->getLink() ?>"><?= $game->getDeveloper()->getName() ?></a>
                         </td>
                         <td>
-                            <a href="<?= $game->getPlatform()->getLink() ?>"><?= $game->getPlatform()->getName() ?></a>
+                            <a target="_blank" href="<?= $game->getPlatform()->getLink() ?>"><?= $game->getPlatform()->getName() ?></a>
                         </td>
                         
                         <td>
