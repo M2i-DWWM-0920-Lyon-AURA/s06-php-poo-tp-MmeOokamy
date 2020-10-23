@@ -5,6 +5,9 @@
 
 
     $dbVideoGames = new PDO('mysql:host=localhost;dbname=videogames', 'root', 'root');
+    $dbVideoGames->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $dbVideoGames->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
 
     $statement = $dbVideoGames->query('SELECT * FROM `game` LIMIT 50');
 
@@ -22,8 +25,8 @@ if (
     && isset($_GET['developer'])
     && isset($_GET['platform'])
 ) {
-
-    $statement = $dbVideoGames->prepare('
+    if(filter_var($_GET['link'], FILTER_VALIDATE_URL)){
+        $statement = $dbVideoGames->prepare('
              INSERT INTO `game` (
                  `title`,
                  `release_date`,
@@ -47,8 +50,12 @@ if (
              ':developer_id' => $_GET['developer'],
              ':platform_id' => $_GET['platform'],
          ]);
+         echo 'GG tu as rajouté un nouveau jeu!';
+
 }
 
+    
+} 
 
 ?>
 
